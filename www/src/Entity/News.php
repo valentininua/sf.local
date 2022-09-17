@@ -23,9 +23,6 @@ class News
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $image = null;
 
-    #[ORM\Column(name:"delete", type:"boolean", nullable:true)]
-    private ?bool $delete = null;
-
     #[Assert\DateTime]
     #[ORM\Column(type: 'datetime' , options: [
         "default"=>"CURRENT_TIMESTAMP"
@@ -97,15 +94,4 @@ class News
         return $this;
     }
 
-    public function getDelete(): ?string
-    {
-        return $this->image;
-    }
-
-    public function setDelete(?bool $delete): self
-    {
-        $this->delete = $delete;
-
-        return $this;
-    }
 }
