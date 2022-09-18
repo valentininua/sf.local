@@ -21,7 +21,7 @@ class NewsCommand extends Command
     use LockableTrait;
 
     public function __construct(
-        private readonly NewsService $newsService
+        private NewsService $newsService
     ) {
         parent::__construct(); //  new NewsBbcService
     }

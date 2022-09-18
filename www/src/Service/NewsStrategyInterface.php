@@ -6,5 +6,5 @@ namespace App\Service;
 
 interface NewsStrategyInterface
 {
-    public function handle();
+    public function handle(): void;
 }

@@ -2,26 +2,60 @@
 
 namespace App\Service;
 
-use App\Service\NewsStrategyInterface;
+use App\Repository\NewsRepository;
+use App\Entity\News;
+use Api\Dto\NewsDto;
 use jcobhams\NewsApi\NewsApi;
 
-class NewsService implements NewsStrategyInterface
+class NewsService  implements NewsStrategyInterface
 {
 
-    private string $apiKeyNews = '1ba8fe1c2b1740e5830e62c971a29bb9';
-
-
-    /**
-     * @throws \jcobhams\NewsApi\NewsApiException
-     */
-    public function handle()
+    public function __construct(
+        private readonly string         $apiKeyNews,
+        private readonly NewsRepository $newsRepository,
+    )
     {
-        $news = (new NewsApi($this->apiKeyNews))->getEverything('bitcoin');
-        dump($news);
     }
 
 
-    private  function news(): string
+    public function handle(): void
+    {
+        $this->loadNews();
+        dd($this->newsRepository->findAll());
+
+    }
+
+
+    private function loadNews(): ?NewsDto
+    {
+         $newsApi = (new NewsApi($this->apiKeyNews))->getEverything('bitcoin');
+
+        dd($newsApi);
+        return (new NewsDto())
+            ->setDescription('-')
+            ->setTitle('-')
+            ->setImage('-');
+
+
+//        if (self::STATUS_OK !== $news->status) {
+//            return $news->status;
+//        }
+//        if (0 === $news->totalResults) {
+//            return $news->totalResults;
+//        }
+
+
+//       dd($news);
+////        $this->news->setTitle('title');
+//
+//        //$this->repository->add($this->news, true);
+//
+//
+//        dump($this->news);
+    }
+
+
+    private function test(): string
     {
         $messages = [
             '2 Crypto Stocks to Avoid Like the Plague in September',
