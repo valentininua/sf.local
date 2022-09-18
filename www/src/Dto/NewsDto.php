@@ -6,17 +6,9 @@ namespace Api\Dto;
 
 class NewsDto
 {
-    private ?int $id = null;
     private ?string $title = null;
     private ?string $description = null;
     private ?string $image = null;
-    private ?\DateTime $createAt = null;
-    private ?\DateTime $updateAt = null;
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
 
     public function getTitle(): ?string
     {
@@ -40,26 +32,6 @@ class NewsDto
         $this->description = $description;
 
         return $this;
-    }
-
-    public function getUpdateAt(): ?\DateTime
-    {
-        return $this->updateAt;
-    }
-
-    public function setUpdateAt(?\DateTime $updateAt): void
-    {
-        $this->updateAt = $updateAt;
-    }
-
-    public function getCreateAt(): ?\DateTime
-    {
-        return $this->createAt;
-    }
-
-    public function setCreateAt(?\DateTime $createAt): void
-    {
-        $this->updateAt = $createAt;
     }
 
     public function getImage(): ?string

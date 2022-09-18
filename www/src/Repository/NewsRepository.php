@@ -16,7 +16,9 @@ use App\Pagination\Paginator;
  */
 class NewsRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(
+        ManagerRegistry $registry
+    )
     {
         parent::__construct($registry, News::class);
     }
@@ -68,14 +70,23 @@ class NewsRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('p')
             ->addSelect()
-//            ->innerJoin('p.author', 'a')
-//            ->leftJoin('p.tags', 't')
-//            ->where('p.publishedAt <= :now')
             ->orderBy('p.createAt', 'DESC')
-//            ->setParameter('now', new \DateTime())
         ;
 
         return (new Paginator($qb))->paginate($page);
+    }
+
+    public function save(array $arr): void
+    {
+
+
+
+//        $news = (new News())->setTitle('111')->setImage('xxxxx')->setDescription('ttttt');
+        //$this->getEntityManager()->remove($news);
+
+
+//            $this->getEntityManager()->flush();
+
     }
 
 }

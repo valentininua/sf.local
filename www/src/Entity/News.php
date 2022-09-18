@@ -31,7 +31,7 @@ class News
 
     #[Assert\DateTime]
     #[ORM\Column(type: 'datetime',  columnDefinition: "DATETIME on update CURRENT_TIMESTAMP" )]
-    private \DateTime $updateAt;
+    private ?\DateTime $updateAt;
 
     public function getId(): ?int
     {
@@ -67,9 +67,11 @@ class News
         return $this->updateAt;
     }
 
-    public function setUpdateAt(?\DateTime $updateAt): void
+    public function setUpdateAt(?\DateTime $updateAt): ?self
     {
         $this->updateAt = $updateAt;
+
+        return $this;
     }
 
     public function getCreateAt(): ?\DateTime
@@ -77,9 +79,12 @@ class News
         return $this->createAt;
     }
 
-    public function setCreateAt(?\DateTime $createAt): void
+    public function setCreateAt(?\DateTime $createAt): ?self
     {
         $this->updateAt = $createAt;
+
+        return $this;
+
     }
 
     public function getImage(): ?string

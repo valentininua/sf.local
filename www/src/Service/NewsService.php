@@ -6,6 +6,8 @@ use App\Repository\NewsRepository;
 use App\Entity\News;
 use Api\Dto\NewsDto;
 use jcobhams\NewsApi\NewsApi;
+use jcobhams\NewsApi\NewsApiException;
+use Doctrine\Persistence\ManagerRegistry;
 
 class NewsService  implements NewsStrategyInterface
 {
@@ -13,45 +15,39 @@ class NewsService  implements NewsStrategyInterface
     public function __construct(
         private readonly string         $apiKeyNews,
         private readonly NewsRepository $newsRepository,
+        private ManagerRegistry $doctrine,
     )
     {
     }
 
-
     public function handle(): void
     {
         $this->loadNews();
-        dd($this->newsRepository->findAll());
-
     }
 
-
-    private function loadNews(): ?NewsDto
+    /**
+     * @throws NewsApiException
+     */
+    private function loadNews( ): ?NewsDto
     {
-         $newsApi = (new NewsApi($this->apiKeyNews))->getEverything('bitcoin');
-
-        dd($newsApi);
-        return (new NewsDto())
-            ->setDescription('-')
-            ->setTitle('-')
-            ->setImage('-');
+        $newsApi = (new NewsApi($this->apiKeyNews))->getEverything('bitcoin');
+        $entityManager = $this->doctrine->getManager();
 
 
-//        if (self::STATUS_OK !== $news->status) {
-//            return $news->status;
-//        }
-//        if (0 === $news->totalResults) {
-//            return $news->totalResults;
-//        }
 
+        foreach($newsApi->articles as $field) {
+            $news = (new News())
+                ->setTitle($field->title)
+                ->setImage($field->url)
+                ->setDescription($field->description)
+                ->setCreateAt(null)
+                ->setUpdateAt(null);
+        }
+        $entityManager->persist($news);
+        $entityManager->flush();
 
-//       dd($news);
-////        $this->news->setTitle('title');
-//
-//        //$this->repository->add($this->news, true);
-//
-//
-//        dump($this->news);
+        return null;
+
     }
 
 
