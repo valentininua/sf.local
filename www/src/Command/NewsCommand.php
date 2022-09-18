@@ -21,9 +21,9 @@ class NewsCommand extends Command
     use LockableTrait;
 
     public function __construct(
-        private NewsService $newsService
+        private readonly NewsService $newsService
     ) {
-        parent::__construct();
+        parent::__construct(); //  new NewsBbcService
     }
     protected function configure(): void
     {
@@ -41,7 +41,7 @@ class NewsCommand extends Command
             return Command::SUCCESS;
         }
 
-        dump($this->newsService->getHappyMessage());
+        dump($this->newsService->handle());
         sleep(2);
 
         $io = new SymfonyStyle($input, $output);
