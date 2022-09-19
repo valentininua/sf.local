@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\NewsRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use phpDocumentor\Reflection\Types\Integer;
 
@@ -33,6 +34,11 @@ class News
     #[ORM\Column(type: 'datetime',  columnDefinition: "DATETIME on update CURRENT_TIMESTAMP" )]
     private ?\DateTime $updateAt;
 
+    public function __construct()
+    {
+        $this->updateAt = new \DateTime();
+        $this->createAt = new \DateTime();
+    }
     public function getId(): ?int
     {
         return $this->id;

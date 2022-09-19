@@ -36,12 +36,12 @@ class NewsService  implements NewsStrategyInterface
 
 
         foreach($newsApi->articles as $field) {
+
             $news = (new News())
                 ->setTitle($field->title)
-                ->setImage($field->url)
-                ->setDescription($field->description)
-                ->setCreateAt(null)
-                ->setUpdateAt(null);
+                ->setImage($field->urlToImage)
+                ->setDescription($field->description);
+
         }
         $entityManager->persist($news);
         $entityManager->flush();
