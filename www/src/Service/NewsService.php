@@ -11,7 +11,6 @@ use Doctrine\Persistence\ManagerRegistry;
 
 class NewsService  implements NewsStrategyInterface
 {
-
     public function __construct(
         private readonly string         $apiKeyNews,
         private readonly NewsRepository $newsRepository,
@@ -28,26 +27,23 @@ class NewsService  implements NewsStrategyInterface
     /**
      * @throws NewsApiException
      */
-    private function loadNews( ): ?NewsDto
+    private function loadNews(): ?NewsDto
     {
         $newsApi = (new NewsApi($this->apiKeyNews))->getEverything('bitcoin');
+
         $entityManager = $this->doctrine->getManager();
-
-
-
         foreach($newsApi->articles as $field) {
 
             $news = (new News())
                 ->setTitle($field->title)
                 ->setImage($field->urlToImage)
-                ->setDescription($field->description);
+                ->setDescription(mb_strimwidth($field->description , 0, 40, "...") );
+            $entityManager->persist($news);
 
         }
-        $entityManager->persist($news);
         $entityManager->flush();
 
         return null;
-
     }
 
 

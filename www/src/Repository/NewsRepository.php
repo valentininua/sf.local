@@ -76,17 +76,9 @@ class NewsRepository extends ServiceEntityRepository
         return (new Paginator($qb))->paginate($page);
     }
 
-    public function save(array $arr): void
+    public function save(array $arr): array
     {
-
-
-
-//        $news = (new News())->setTitle('111')->setImage('xxxxx')->setDescription('ttttt');
-        //$this->getEntityManager()->remove($news);
-
-
-//            $this->getEntityManager()->flush();
-
+        return $arr;
     }
 
 }
